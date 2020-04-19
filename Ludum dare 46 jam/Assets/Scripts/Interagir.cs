@@ -44,6 +44,10 @@ public class Interagir : MonoBehaviour
         GetComponent<TopDownMovement>().enabled = true;
         BarraDeProgresso.SetActive(false);
         BarraDeProgresso.GetComponent<Slider>().value = 0;
+
+        UI_Control u = (UI_Control)FindObjectOfType(typeof(UI_Control));
+        u.MudarEstamina(-0.2f);
+        u.MudarSanidade(-0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

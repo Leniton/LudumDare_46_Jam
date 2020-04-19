@@ -34,7 +34,7 @@ public class UI_Control : MonoBehaviour
 
             AtualizarTempo();
 
-        } while (Dia < 40);
+        } while (Dia < 7);
     }
 
     void AtualizarTempo()
