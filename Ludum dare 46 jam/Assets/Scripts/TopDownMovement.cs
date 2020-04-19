@@ -54,6 +54,11 @@ public class TopDownMovement : MonoBehaviour
 			vertical = 0;
 		}
 		RB.velocity = new Vector3(horizontal, vertical, 0) * Velocidade;
+
+		if (GetComponent<Animator>())
+		{
+			GetComponent<Animator>().SetInteger("Move", horizontal);
+		}
 	}
 
 	public bool isMoving()

@@ -7,6 +7,8 @@ public class Interagir : MonoBehaviour
 {
     [SerializeField]
     GameObject BarraDeProgresso, BotaoInteragir;
+    Objeto_Interagivel Atual;
+
     bool Interagindo = false;
 
     void Start()
@@ -25,7 +27,7 @@ public class Interagir : MonoBehaviour
                 GetComponent<TopDownMovement>().enabled = false;
                 BarraDeProgresso.SetActive(true);
                 BarraDeProgresso.transform.position = transform.GetChild(0).position;
-                StartCoroutine(ProgressoInteracao(1));
+                StartCoroutine(ProgressoInteracao(Atual.DuraçãoAtividade));
 
             }
         }
@@ -33,6 +35,8 @@ public class Interagir : MonoBehaviour
 
     IEnumerator ProgressoInteracao(float duracao)
     {
+        //BarraDeProgresso.GetComponent<Slider>().maxValue = duracao;
+        Time.timeScale = 6;
         do
         {
             yield return new WaitForSeconds(duracao / 40);
@@ -44,19 +48,22 @@ public class Interagir : MonoBehaviour
         GetComponent<TopDownMovement>().enabled = true;
         BarraDeProgresso.SetActive(false);
         BarraDeProgresso.GetComponent<Slider>().value = 0;
-
-        UI_Control u = (UI_Control)FindObjectOfType(typeof(UI_Control));
-        u.MudarEstamina(-0.2f);
-        u.MudarSanidade(-0.5f);
+        Time.timeScale = 1;
+        Atual.Interagir();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.GetComponent<Objeto_Interagivel>() == null) return;
+
+        Atual = collision.GetComponent<Objeto_Interagivel>();
+
         BotaoInteragir.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Atual = null;
         BotaoInteragir.SetActive(false);
     }
 }
